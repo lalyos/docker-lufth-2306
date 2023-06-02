@@ -38,9 +38,41 @@ Use this image
 docker run -d -p 80 web:v5
 ```
 
+## Environment variables
+
+```
+FOOD=donner
+echo ${FOOD}
+echo ${FOOD:-default}
+echo ${FOOD:=def-andset}
+echo ${FOOD:? required} # fails if not set
+```
+
+inject env var to a container
+```
+docker run -dP -e TITLE='Happy Friday' web:v7
+```
+
+Coffebreak afternoon:
+```
+docker run -dP \
+  -e TITLE='Coffebrak friday' \
+  -e COLOR=hotpink \
+  web:v8
+```
+
+## Share an image
+
+```
+docker login ...
+docker build -t lalyos/web:v8 .
+docker push lalyos/web:v8
+```
+
+
+
 ## Helper 
 
 ```
 alias nuke='docker rm -f $(docker ps -qa)'
 ```
-
