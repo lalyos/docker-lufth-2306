@@ -1,5 +1,8 @@
 FROM ubuntu
 RUN apt-get update -q
 RUN apt-get install -y curl nginx
-RUN echo lalyos have a lunchbreak > /var/www/html/index.html
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 80
+COPY start.sh /
+RUN chmod +x /start.sh
+CMD [ "/start.sh" ]
+# last line ...
