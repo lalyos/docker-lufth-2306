@@ -157,6 +157,8 @@ docker network create luft
 
 docker run -dP --name=backend -e TITLE=backend --net=luft web:v8
 docker run -it --net=luft lalyos/tool
+# use your own image:
+docker run -it --net=luft tool
 docker run -d \
   --net=luft \
   -v vipdb:/var/lib/mysql  \
@@ -168,6 +170,31 @@ docker run -d \
 
 inside of tool
 ```
+curl backend
+mysql -u root -psecret -h mydb mysql <<< 'select * from vip;'
+```
+
+## Tool
+
+```
+mkdir tool
+touch tool/Dockerfile
+cat > tool/Dockerfile <<EOF
+FROM ubuntu
+RUN apt-get update -qq
+RUN apt-get install -y curl net-tools mysql-client
+# one more line
+EOF
+```
+build the image
+```
+docker build -t tool ./tool/
+```
+
+use the image:
+```
+docker run -it --net=luft tool
+# inside
 curl backend
 mysql -u root -psecret -h mydb mysql <<< 'select * from vip;'
 ```
