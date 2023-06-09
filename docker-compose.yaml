@@ -10,7 +10,7 @@ services:
   
   tool:
     image: tool
-    build: tools
+    build: tool
     command: sleep 9999
 
   web:
