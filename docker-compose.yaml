@@ -10,10 +10,12 @@ services:
   
   tool:
     image: tool
+    build: tools
     command: sleep 9999
 
   web:
     image: web:v8
+    build: .
     ports:
     - 80
     environment:
