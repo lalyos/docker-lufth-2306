@@ -29,7 +29,7 @@ This an "Artisan" image, don't use commit.
 ## Using a Dockerfile
 
 ```
-docker built -t web:v5 .
+docker build -t web:v5 .
 ```
 
 Use this image
