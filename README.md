@@ -199,6 +199,18 @@ curl backend
 mysql -u root -psecret -h mydb mysql <<< 'select * from vip;'
 ```
 
+## Compose
+
+starting
+```
+docker compose up -d
+```
+
+execing into one:
+```
+docker compose exec -it tool bash
+```
+
 ## Helper 
 
 ```
