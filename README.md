@@ -70,9 +70,111 @@ docker push lalyos/web:v8
 ```
 
 
+## Volumes
+
+
+start web container serving local htm files:
+```
+docker run -dP -v $PWD:/var/www/html
+```
+
+## MariaDB
+
+```
+docker run -d --name mydb mariadb
+
+## docker logs mydb
+
+docker rm mydb
+
+docker run -d --name mydb -e MARIADB_ROOT_PASSWORD=secret mariadb
+```
+
+now jump inside
+```
+docker exec -it mydb bash
+
+mysql -u root -psecret mysql
+
+create table vip (name varchar(20), age int);
+insert into vip values ('Elon', 47);
+insert into vip values ('Bill', 58);
+insert into vip values ('Layos', 49);
+select * from vip;
+exit
+```
+
+print all records
+```
+docker exec -i mydb  mysql -psecret mysql <<< "select * from vip;"
+```
+
+starting a new DB with the leftover randomly name volume
+```
+docker run -d -v 487d9756b337b1df0f7464c4b1b72091cb3d42f8c5500eebffcac421c61c851d:/var/lib/mysql  --name mydb -e MARIADB_ROOT_PASSWORD=secret mariadb
+```
+
+### initial data
+
+preapare sql
+```
+mkdir sql
+cat > sql/init.sql <<EOF
+use mysql;
+create table vip (name varchar(20), age int);
+insert into vip values ('Elon', 47);
+insert into vip values ('Bill', 58);
+insert into vip values ('Layos', 49);
+# one more line ...
+EOF
+chmod +r sql/*
+```
+
+```
+docker run -d \
+  -v vipdb:/var/lib/mysql  \
+  -v $PWD/sql:/docker-entrypoint-initdb.d \
+  --name mydb \
+  -e MARIADB_ROOT_PASSWORD=secret \
+  mariadb
+```
+
+
+check the container logs, look for 2 lines after init.sql:
+```
+docker logs mydb |& grep -A2 init.sql
+```
+
+## Networks
+
+
+```
+# listing
+docker network ls
+
+# create a new
+docker network create luft
+
+docker run -dP --name=backend -e TITLE=backend --net=luft web:v8
+docker run -it --net=luft lalyos/tool
+docker run -d \
+  --net=luft \
+  -v vipdb:/var/lib/mysql  \
+  -v $PWD/sql:/docker-entrypoint-initdb.d \
+  --name mydb \
+  -e MARIADB_ROOT_PASSWORD=secret \
+  mariadb
+```
+
+inside of tool
+```
+curl backend
+mysql -u root -psecret -h mydb mysql <<< 'select * from vip;'
+```
 
 ## Helper 
 
 ```
 alias nuke='docker rm -f $(docker ps -qa)'
+alias vip='docker exec -i mydb  mysql -psecret mysql <<< "select * from vip;"'
 ```
