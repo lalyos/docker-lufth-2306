@@ -15,8 +15,14 @@ services:
     command: sleep 9999
 
   web:
-    image: web:v8
-    build: .
+    image: web
+    #build: .
+    # build:
+    #   context: .
+    build:
+      context: .
+      dockerfile: Dockerfile.alpine
+    
     ports:
     - 80
     environment:
