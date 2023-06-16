@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cat > /var/www/html/index.html <<EOF
+
+cat > ${WWW_DIR:-/var/www/html}/index.html <<EOF
 <html lang="en">
 <head>
     <title>Document</title>
@@ -13,4 +14,5 @@ cat > /var/www/html/index.html <<EOF
 EOF
 
 nginx -g "daemon off;"
+
 # last line ...

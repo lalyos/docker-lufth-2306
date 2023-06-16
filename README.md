@@ -211,6 +211,25 @@ execing into one:
 docker compose exec -it tool bash
 ```
 
+
+final command to remember:
+```
+docker compose up -d --build
+```
+
+## Alpine version
+
+```
+docker build -f Dockerfile.alpine -t web:alpine .
+docker images web
+```
+
+trying it out:
+```
+docker run -it --rm web:alpine  bash
+```
+
+
 ## Helper 
 
 ```
