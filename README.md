@@ -217,6 +217,29 @@ final command to remember:
 docker compose up -d --build
 ```
 
+## Compose Project
+
+use cmd line option
+```
+docker compose -p friday up -d
+```
+
+use env var
+```
+export COMPOSE_PROJECT_NAME=friday
+docker compose up -d
+```
+
+Using auto load of .env
+
+```
+# default .env file is read
+docker compose up -d
+
+# alternate qa.env file is read
+docker compose --env-file qa.env up -d
+```
+
 ## Alpine version
 
 ```
