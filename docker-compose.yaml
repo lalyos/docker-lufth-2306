@@ -20,8 +20,9 @@ services:
     ports:
     - 80
     environment:
-    - TITLE=Friday
-    - COLOR=hotpink
+    - TITLE=${TITLE:-Welcome}
+    - COLOR=${COLOR:-yellow}
+    - BODY=${BODY:-use TITLE/BODY/COLOR env vars}
 
 volumes:
   vipdb:
