@@ -9,6 +9,7 @@ services:
     - MARIADB_ROOT_PASSWORD=secret
   
   tool:
+    init: true
     image: tool
     build: tool
     command: sleep 9999
